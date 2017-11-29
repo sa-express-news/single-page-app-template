@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "description": "Template to develop single-page applications for use in the WCM.",
   "main": "./dist/main.js",
+  "repository": "https://github.com/sa-express-news/single-page-app-template",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "gulp"
   },
   "author": "Kia Farhang",
   "license": "ISC",
