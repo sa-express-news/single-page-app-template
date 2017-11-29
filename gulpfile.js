@@ -50,7 +50,7 @@ const cssWatcher = gulp.watch('src/css/*.scss', ['css']);
 const jsWatcher = gulp.watch('src/js/*.ts', ['js']);
 
 
-gulp.task('default', function () {
+gulp.task('default', ['html', 'css', 'js'], function () {
     browserSync.init({
         server: {
             baseDir: 'dist'
