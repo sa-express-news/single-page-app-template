@@ -11,7 +11,7 @@ var paths = {
 var watchedBrowserify = watchify(browserify({
     basedir: '.',
     debug: true,
-    entries: ['src/index.ts'],
+    entries: ['src/js/index.ts'],
     cache: {},
     packageCache: {}
 }).plugin(tsify));
@@ -25,7 +25,7 @@ function bundle() {
     return watchedBrowserify
         .bundle()
         .pipe(source('bundle.js'))
-        .pipe(gulp.dest("dist"));
+        .pipe(gulp.dest("dist/js/"));
 }
 
 gulp.task("default", ["copy-html"], bundle);
