@@ -9,10 +9,12 @@
   "author": "Kia Farhang",
   "license": "ISC",
   "devDependencies": {
+    "browser-sync": "^2.18.13",
     "browserify": "^14.5.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-cssnano": "^2.1.2",
+    "gulp-nodemon": "^2.2.1",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-typescript": "^3.2.3",
@@ -20,5 +22,6 @@
     "tsify": "^3.0.3",
     "typescript": "^2.6.2",
     "vinyl-source-stream": "^1.1.0"
-  }
+  },
+  "dependencies": {}
 }

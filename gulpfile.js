@@ -11,6 +11,8 @@ const cssnano = require('gulp-cssnano');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 
+const browserSync = require('browser-sync').create();
+
 gulp.task('html', function () {
     return gulp.src(paths.pages)
         .pipe(gulp.dest("dist"));
@@ -31,17 +33,28 @@ gulp.task('css', function () {
 });
 
 gulp.task('js', function () {
-    browserify({
+    return browserify({
         basedir: '.',
         debug: true,
         entries: ['src/js/index.ts'],
         cache: {},
         packageCache: {}
-    }).plugin(tsify);
+    }).plugin(tsify)
+        .bundle()
+        .pipe(source('bundle.js'))
+        .pipe(gulp.dest('dist/js'));;
 });
 
 const htmlWatcher = gulp.watch('src/index.html', ['html']);
 const cssWatcher = gulp.watch('src/css/*.scss', ['css']);
 const jsWatcher = gulp.watch('src/js/*.ts', ['js']);
 
-gulp.task("default", function () { });
+
+gulp.task('default', function () {
+    browserSync.init({
+        server: {
+            baseDir: 'dist'
+        },
+        files: ['dist/index.html', 'dist/css/style.css', 'dist/js/bundle.js']
+    });
+});
