@@ -1,33 +1,47 @@
-var gulp = require("gulp");
-var browserify = require("browserify");
-var source = require('vinyl-source-stream');
-var watchify = require("watchify");
-var tsify = require("tsify");
-var gutil = require("gulp-util");
-var paths = {
+const gulp = require("gulp");
+const browserify = require("browserify");
+const source = require('vinyl-source-stream');
+const tsify = require("tsify");
+const gutil = require("gulp-util");
+const paths = {
     pages: ['src/*.html']
 };
+const sass = require('gulp-sass');
+const cssnano = require('gulp-cssnano');
+const sourcemaps = require('gulp-sourcemaps');
+const autoprefixer = require('gulp-autoprefixer');
 
-var watchedBrowserify = watchify(browserify({
-    basedir: '.',
-    debug: true,
-    entries: ['src/js/index.ts'],
-    cache: {},
-    packageCache: {}
-}).plugin(tsify));
-
-gulp.task("copy-html", function () {
+gulp.task('html', function () {
     return gulp.src(paths.pages)
         .pipe(gulp.dest("dist"));
 });
 
-function bundle() {
-    return watchedBrowserify
-        .bundle()
-        .pipe(source('bundle.js'))
-        .pipe(gulp.dest("dist/js/"));
-}
+gulp.task('css', function () {
+    gulp.src('./src/css/*.scss')
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
+        .pipe(cssnano())
+        .pipe(sourcemaps.write('./'))
 
-gulp.task("default", ["copy-html"], bundle);
-watchedBrowserify.on("update", bundle);
-watchedBrowserify.on("log", gutil.log);
+        .pipe(gulp.dest('./dist/css/'))
+});
+
+gulp.task('js', function () {
+    browserify({
+        basedir: '.',
+        debug: true,
+        entries: ['src/js/index.ts'],
+        cache: {},
+        packageCache: {}
+    }).plugin(tsify);
+});
+
+const htmlWatcher = gulp.watch('src/index.html', ['html']);
+const cssWatcher = gulp.watch('src/css/*.scss', ['css']);
+const jsWatcher = gulp.watch('src/js/*.ts', ['js']);
+
+gulp.task("default", function () { });

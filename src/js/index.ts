@@ -4,4 +4,4 @@ function showHello(divName, name) {
     elt.innerText = sayHello(name);
 }
 
-showHello("greeting", "the Express-News!");
+showHello("greeting", "the Express-New!");
