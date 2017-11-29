@@ -1,4 +1,6 @@
-import { sayHello } from './module';
+function sayHello(name) {
+    return `Hello from ${name}`;
+}
 function showHello(divName, name) {
     const elt = document.getElementById(divName);
     elt.innerText = sayHello(name);
